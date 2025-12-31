@@ -50,6 +50,7 @@ services:
       - web
     environment:
       - PYTHONUNBUFFERED=1
+      - DATABASE_URL=${API1_DATABASE_URL}
 
   # ===================================
 
