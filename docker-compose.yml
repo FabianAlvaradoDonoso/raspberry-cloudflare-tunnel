@@ -193,6 +193,38 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+
+  # ========== LOGS CENTRALIZADOS ==========
+  
+  # Loki - Base de datos de logs
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - ./monitoring/loki:/etc/loki
+      - loki_data:/loki
+    networks:
+      - web
+
+  # Promtail - Recolector de logs
+  promtail:
+    image: grafana/promtail:latest
+    container_name: promtail
+    restart: unless-stopped
+    volumes:
+      - ./monitoring/promtail:/etc/promtail
+      - /var/log:/var/log:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - web
+    depends_on:
+      - loki
 # ==================================
 
 volumes:
@@ -203,6 +235,8 @@ volumes:
   prometheus_data:
     driver: local
   grafana_data:
+    driver: local
+  loki_data:
     driver: local
 
 networks:
