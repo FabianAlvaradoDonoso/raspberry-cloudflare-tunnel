@@ -38,13 +38,15 @@ scrape_configs:
         labels:
           instance: 'postgres-db'
 
-  # Métricas de tu API FastAPI (lo configuraremos después)
+  # Métricas de tu API FastAPI
   - job_name: 'fastapi'
     static_configs:
       - targets: ['api1:8000']
         labels:
           app: 'api1'
+          environment: 'production'
     metrics_path: '/metrics'
+    scrape_interval: 15s
 
   # Si agregas más APIs o servicios, añádelos aquí
   # - job_name: 'api2'
