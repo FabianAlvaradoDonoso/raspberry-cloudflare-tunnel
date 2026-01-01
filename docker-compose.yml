@@ -19,6 +19,8 @@ services:
     container_name: cloudflared
     command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
     restart:  unless-stopped
+    volumes:
+      - ./cloudflared/config.yml:/etc/cloudflared/config.yml:ro
     networks: 
       - web
 

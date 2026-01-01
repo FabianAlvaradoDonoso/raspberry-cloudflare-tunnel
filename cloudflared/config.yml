@@ -1,0 +1,60 @@
+# Configuración de Ingress para Cloudflare Tunnel
+# Este archivo define cómo las solicitudes desde internet se enrutan a servicios internos
+
+# IMPORTANTE: Las reglas se evalúan de arriba hacia abajo
+# La primera regla que coincida con el hostname será la que se aplique
+
+ingress:
+  # Portafolio - Dominio principal www
+  - hostname: www.redpandachile.dev
+    service: http://nginx:80
+    originRequest:
+      noTLSVerify: false
+      connectTimeout: 30s
+      
+  # Portafolio - Subdominio alternativo
+  - hostname: portafolio.redpandachile.dev
+    service: http://nginx:80
+    originRequest:
+      noTLSVerify: false
+      connectTimeout: 30s
+      
+  # Lab / Página de inicio
+  - hostname: lab.redpandachile.dev
+    service: http://nginx:80
+    originRequest:
+      noTLSVerify: false
+      connectTimeout: 30s
+      
+  # App React 1
+  - hostname: app1.redpandachile.dev
+    service: http://nginx:80
+    originRequest:
+      noTLSVerify: false
+      connectTimeout: 30s
+      
+  # API FastAPI
+  - hostname: api.redpandachile.dev
+    service: http://nginx:80
+    originRequest:
+      noTLSVerify: false
+      connectTimeout: 30s
+      
+  # pgAdmin - Administración de base de datos
+  - hostname: pgadmin.redpandachile.dev
+    service: http://nginx:80
+    originRequest:
+      noTLSVerify: false
+      connectTimeout: 30s
+      
+  # Grafana - Monitoreo y Dashboards
+  - hostname: monitoring.redpandachile.dev
+    service: http://nginx:80
+    originRequest:
+      noTLSVerify: false
+      connectTimeout: 30s
+
+  
+  # Regla catch-all obligatoria para cualquier otro hostname
+  # Devuelve un 404 para solicitudes no reconocidas
+  - service: http_status:404
