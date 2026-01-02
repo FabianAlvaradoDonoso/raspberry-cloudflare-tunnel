@@ -10,6 +10,8 @@ services:
     restart: unless-stopped
     networks:
       - web
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
       - frontend1
       - api1
