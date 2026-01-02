@@ -5,7 +5,21 @@
 # La primera regla que coincida con el hostname será la que se aplique
 
 ingress:
-  # Portafolio - Dominio principal www
+  # Portafolio - Dominio principal .dev
+  - hostname: redpandachile.dev
+    service: http://nginx:80
+    originRequest:
+      noTLSVerify: false
+      connectTimeout: 30s
+      
+  # Portafolio - Dominio principal www .dev
+  - hostname: www.redpandachile.dev
+    service: http://nginx:80
+    originRequest:
+      noTLSVerify: false
+      connectTimeout: 30s
+      
+  # Portafolio - Dominio principal www .dev
   - hostname: www.redpandachile.dev
     service: http://nginx:80
     originRequest:
