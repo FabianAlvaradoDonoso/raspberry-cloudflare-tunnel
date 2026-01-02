@@ -53,6 +53,44 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
       - DATABASE_URL=${API1_DATABASE_URL}
+  
+  # ========== APP CONTROL GESTION GT ==========
+  control-gestion-gt-frontend:
+    build:
+      context: ../apps/control-gestion-gt/frontend
+      args:
+        VITE_SIGNIN_WARNING_MESSAGE: "🚧 Aplicación en desarrollo"
+        VITE_SERVER_URL: https://control-gestion-gt-backend.redpandachile.dev/api
+        VITE_GT_AUTH_URL: https://gt-auth.azurewebsites.net
+        VITE_APP_NAME: "Control Gestión GT"
+    container_name: control-gestion-gt-frontend
+    restart: unless-stopped
+    networks:
+      - web
+    environment:
+      - NODE_ENV=production
+    
+  # API FastAPI
+  control-gestion-gt-backend:
+    build: ../apps/control-gestion-gt/backend
+    container_name: control-gestion-gt-backend
+    restart: unless-stopped
+    networks:
+      - web
+    environment:
+      - NODE_ENV=production
+      - PORT=8000
+      - API_URL=https://control-gestion-gt-backend.redpandachile.dev
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_NAME=control-gestion
+      - SECRET_KEY=${SECRET_KEY}
+      - ALGORITHM=${ALGORITHM}
+      - BUK_API_KEY=${BUK_API_KEY}
+      - ALLOWED_ORIGINS=*
+
 
   # ===================================
 
@@ -76,6 +114,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    ports:
+      - "5432:5432"
 
   # Herramienta de administración pgAdmin
   pgadmin:

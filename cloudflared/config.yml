@@ -54,6 +54,20 @@ ingress:
       noTLSVerify: false
       connectTimeout: 30s
 
+  # Control Gestión GT Frontend
+  - hostname: control-gestion-gt.redpandachile.dev
+    service: http://nginx:80
+    originRequest:
+      noTLSVerify: false
+      connectTimeout: 30s
+
+  # Control Gestión GT Backend
+  - hostname: control-gestion-gt-backend.redpandachile.dev
+    service: http://nginx:80
+    originRequest:
+      noTLSVerify: false
+      connectTimeout: 30s
+
   
   # Regla catch-all obligatoria para cualquier otro hostname
   # Devuelve un 404 para solicitudes no reconocidas
