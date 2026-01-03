@@ -28,6 +28,18 @@ services:
 
   # ========== APPS DE EJEMPLO ==========
 
+  lab-dashboard:
+    build:  ../apps/lab-dashboard
+    container_name: lab-dashboard
+    restart: unless-stopped
+    networks:
+      - web
+    environment:
+      - BETTER_AUTH_SECRET=${LAB_BETTER_AUTH_SECRET}
+      - BETTER_AUTH_URL=${LAB_BETTER_AUTH_URL}
+      - NEXT_PUBLIC_APP_URL=${LAB_NEXT_PUBLIC_APP_URL}
+      - DATABASE_URL=${LAB_DATABASE_URL}
+
   portafolio:
     build:  ../apps/portafolio
     container_name: portafolio
@@ -88,9 +100,9 @@ services:
       - DB_USER=${POSTGRES_USER}
       - DB_PASSWORD=${POSTGRES_PASSWORD}
       - DB_NAME=control-gestion
-      - SECRET_KEY=${SECRET_KEY}
-      - ALGORITHM=${ALGORITHM}
-      - BUK_API_KEY=${BUK_API_KEY}
+      - SECRET_KEY=${CONTROL_GESTION_SECRET_KEY}
+      - ALGORITHM=${CONTROL_GESTION_ALGORITHM}
+      - BUK_API_KEY=${CONTROL_GESTION_BUK_API_KEY}
       - ALLOWED_ORIGINS=*
 
 
